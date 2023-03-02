@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const MaterialApp(
+    home: MainApp(),
+  ));
 }
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
+
+  void testAlert(BuildContext context, String title, String content) {
+    var alert = AlertDialog(
+      title: Text(title),
+      content: Text(content),
+    );
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +43,7 @@ class MainApp extends StatelessWidget {
                 TextField(
                   controller: emailController,
                   decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.all(20),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(50.0),
                     ),
@@ -39,6 +55,7 @@ class MainApp extends StatelessWidget {
                   controller: passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.all(20),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(50.0),
                     ),
@@ -54,9 +71,11 @@ class MainApp extends StatelessWidget {
                   onPressed: () {
                     if (emailController.text == 'admin' &&
                         passwordController.text == 'admin') {
-                      print('Login Success');
+                      testAlert(
+                          context, 'Login Success', 'Successfully logged in');
                     } else {
-                      print('Login Failed');
+                      testAlert(context, 'Login Failed',
+                          'Email or Password is incorrect');
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -65,11 +84,12 @@ class MainApp extends StatelessWidget {
                   child: const Text('Login'),
                 ),
                 TextButton(
-                  style: TextButton.styleFrom(
-                    minimumSize: Size.zero,
-                    padding: EdgeInsets.zero,
-                  ),
                   onPressed: () {},
+                  style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      minimumSize: const Size(50, 30),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      alignment: Alignment.centerLeft),
                   child: const Text('Forgot Password?',
                       style: TextStyle(color: Colors.grey)),
                 ),
